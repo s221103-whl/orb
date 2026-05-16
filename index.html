@@ -61,16 +61,19 @@
           const [selectedActivity, setSelectedActivity] = useState(null);
           const [activeCategory, setActiveCategory] = useState('全部');
 
-          const categories = ['講座', '桌上遊戲', '運動', '其他'];
+          // 更新類別清單：刪除講座，加入飯腳、文化、烹飪、藝術、登山、水上活動
+          const categories = ['飯腳', '文化', '烹飪', '藝術', '登山', '水上活動', '桌上遊戲', '運動', '其他'];
 
           const [activities, setActivities] = useState([
             { id: 1, title: "歡迎大富翁新手賽", category: "桌上遊戲", location: "旺角彌敦道 700 號 T.O.P 4 樓", date: "5月20日" },
-            { id: 2, title: "Web3 商業應用講座", category: "講座", location: "線上 Zoom 會議", date: "5月22日" },
+            { id: 2, title: "中環日式拉麵飯腳團", category: "飯腳", location: "中環威靈頓街 99 號", date: "5月21日" },
             { id: 3, title: "週日匹克球初級班", category: "運動", location: "維多利亞公園網球場", date: "5月24日" },
-            { id: 4, title: "中環深夜跑團", category: "運動", location: "中環海濱長廊", date: "5月25日" },
-            { id: 5, title: "攝影大師班：光影構圖", category: "講座", location: "尖沙咀文化中心", date: "5月26日" },
-            { id: 6, title: "狼人殺之夜", category: "桌上遊戲", location: "銅鑼灣桌遊主題咖啡廳", date: "5月27日" },
-            { id: 7, title: "週末野餐交流會", category: "其他", location: "西九文化區大草地", date: "5月28日" }
+            { id: 4, title: "法式馬卡龍基礎烹飪班", category: "烹飪", location: "荔枝角 D2 Place 二期", date: "5月25日" },
+            { id: 5, title: "大東山觀日登山行", category: "登山", location: "東涌站集合", date: "5月26日" },
+            { id: 6, title: "西貢獨木舟探險之旅", category: "水上活動", location: "西貢碼頭集合", date: "5月27日" },
+            { id: 7, title: "大館導覽及歷史文化座談", category: "文化", location: "中環大館", date: "5月28日" },
+            { id: 8, title: "週末油畫工作坊", category: "藝術", location: "火炭藝術工作室", date: "5月29日" },
+            { id: 9, title: "韓式炸雞啤酒分享會", category: "飯腳", location: "尖沙咀加連威老道", date: "5月30日" }
           ]);
 
           const newsData = {
@@ -79,8 +82,8 @@
               { id: 2, title: "週末運動節優惠", desc: "所有運動類活動報名費 9 折", date: "2天前" }
             ],
             notifications: [
-              { id: 1, title: "活動人數已滿", desc: "你建立的「週五桌遊夜」人數已滿，系統已停止發佈。", type: "system", date: "1小時前" },
-              { id: 2, title: "報名成功通知", desc: "你已成功報名「Web3 商業應用講座」。", type: "success", date: "昨天" }
+              { id: 1, title: "活動人數已滿", desc: "你建立的「中環飯腳團」人數已滿，系統已停止發佈。", type: "system", date: "1小時前" },
+              { id: 2, title: "報名成功通知", desc: "你已成功報名「西貢獨木舟探險之旅」。", type: "success", date: "昨天" }
             ]
           };
 
@@ -115,7 +118,7 @@
                     { label: '建立活動', icon: <Icons.Plus />, bg: 'bg-white', action: () => setCurrentPage('create') },
                     { label: '搜尋活動', icon: <Icons.Search />, bg: 'bg-white', action: () => setCurrentPage('search') },
                     { label: '最新消息', icon: <Icons.Megaphone />, bg: 'bg-white', badge: true, action: () => setCurrentPage('news') },
-                    { label: '我的朋友圈', icon: <Icons.Users />, bg: 'bg-white' },
+                    { label: '朋友圈', icon: <Icons.Users />, bg: 'bg-white' },
                     { label: '我的紀錄', icon: <Icons.History />, bg: 'bg-white' },
                     { label: '查看更多', icon: <Icons.Grid />, bg: 'bg-white' },
                   ].map((item, idx) => (
@@ -153,7 +156,7 @@
           const CreateActivityPage = () => {
             const [formData, setFormData] = useState({
                 title: '',
-                category: '講座',
+                category: '飯腳',
                 date: '',
                 time: '',
                 location: '',
@@ -192,7 +195,7 @@
                             <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-2">活動名稱</label>
                             <input 
                                 type="text" 
-                                placeholder="例如：新手大富翁之夜" 
+                                placeholder="例如：西貢獨木舟探險" 
                                 className="w-full bg-white border border-gray-100 rounded-2xl py-4 px-5 text-gray-700 font-bold focus:ring-2 focus:ring-red-100 outline-none shadow-sm"
                                 value={formData.title}
                                 onChange={(e) => setFormData({...formData, title: e.target.value})}
@@ -309,28 +312,6 @@
                             ))}
                         </div>
                     </section>
-
-                    <section>
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-black text-gray-800">通知提醒</h2>
-                        </div>
-                        <div className="space-y-3">
-                            {newsData.notifications.map(noti => (
-                                <div key={noti.id} className="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm flex items-start gap-4">
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${noti.type === 'system' ? 'bg-orange-50 text-orange-500' : 'bg-green-50 text-green-500'}`}>
-                                        <Icons.Info />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <h3 className="font-black text-gray-900 text-[15px]">{noti.title}</h3>
-                                            <span className="text-[10px] text-gray-400 font-bold">{noti.date}</span>
-                                        </div>
-                                        <p className="text-[12px] font-medium text-gray-500 leading-relaxed">{noti.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
                 </div>
             </div>
           );
@@ -413,7 +394,6 @@
                       <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
                       <span className="font-black text-2xl tracking-tighter italic">ORB ACTIVITY</span>
                    </div>
-                   <div className="absolute bottom-6 left-6 bg-red-600 text-white text-[10px] font-black px-4 py-2 rounded-lg uppercase shadow-lg">官方認證</div>
                 </div>
                 <div className="p-8 space-y-6">
                   <div className="flex justify-between items-center">
@@ -421,18 +401,18 @@
                   </div>
                   <h2 className="text-2xl font-black text-gray-900 leading-tight">{selectedActivity.title}</h2>
                   <p className="text-gray-500 text-sm font-bold leading-relaxed">
-                    這是一個專門為對 {selectedActivity.title} 有興趣的朋友舉辦的聚會。在這裡你可以結識志同道合的新朋友，並享受一個充實的下午。
+                    加入我們的 {selectedActivity.title}，這是一個非常受歡迎的{selectedActivity.category}活動。適合所有程度的朋友參加，我們致力於營造輕鬆愉快的社群氛圍。
                   </p>
                   <div className="space-y-4 border-t pt-6">
                     <div className="flex items-center gap-4 text-sm font-black text-gray-600"><Icons.Calendar /> {selectedActivity.date}</div>
-                    <div className="flex items-center gap-4 text-sm font-black text-gray-600"><Icons.Clock /> 14:00 - 17:00</div>
+                    <div className="flex items-center gap-4 text-sm font-black text-gray-600"><Icons.Clock /> 19:00 - 21:00</div>
                     <div className="flex items-start gap-4 text-sm font-black text-gray-600"><div className="mt-1"><Icons.MapPin /></div> {selectedActivity.location}</div>
                   </div>
                 </div>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t border-gray-100 flex justify-between items-center z-50 shadow-2xl rounded-t-[2.5rem]">
                 <span className="text-2xl font-black text-red-600">免費</span>
-                <button onClick={() => alert('報名成功！')} className="bg-red-600 text-white px-10 py-4 rounded-2xl font-black shadow-lg shadow-red-200 active:scale-95 transition-all">立即參加</button>
+                <button onClick={() => alert('報名成功！')} className="bg-red-600 text-white px-10 py-4 rounded-2xl font-black shadow-lg shadow-red-200 active:scale-95 transition-all">立即報名</button>
               </div>
             </div>
           );
